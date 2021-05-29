@@ -1,2 +1,2 @@
 # Fun2Go
-Fun2Go ist eine Javabasierte Android-App, die zu verschiedensten Themen Funfacts anzeigt. 
+Fun2Go ist eine javabasierte Android-App, die zu verschiedensten Themen Funfacts anzeigt. 
