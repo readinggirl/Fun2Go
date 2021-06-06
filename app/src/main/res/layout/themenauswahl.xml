@@ -14,13 +14,13 @@
         android:id="@+id/umgebung"
         android:layout_width="300sp"
         android:layout_height="45sp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="128dp"
         android:background="@drawable/button_light"
         android:includeFontPadding="false"
         android:text="zu meiner Umgebung"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -101,6 +101,19 @@
         android:background="@drawable/button_light"
         android:includeFontPadding="false"
         android:text="Berühmte Personen"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tiere" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/random"
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_light"
+        android:includeFontPadding="false"
+        android:text="Zufällig"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
