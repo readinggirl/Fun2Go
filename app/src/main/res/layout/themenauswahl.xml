@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fun2go_light"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/umgebung"
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        android:layout_marginTop="96dp"
+        android:background="@drawable/button_light"
+        android:includeFontPadding="false"
+        android:text="zu meiner Umgebung"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/allgemein"
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_light"
+        android:includeFontPadding="false"
+        android:text="Allgemein"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/umgebung" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/mensch"
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_light"
+        android:includeFontPadding="false"
+        android:text="Mensch"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/allgemein" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/essen"
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_light"
+        android:includeFontPadding="false"
+        android:text="Essen"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mensch" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/film_serie"
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_light"
+        android:includeFontPadding="false"
+        android:text="Filme &amp; Serien"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/essen" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/tiere"
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_light"
+        android:includeFontPadding="false"
+        android:text="Tiere"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/film_serie" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/personen"
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_light"
+        android:includeFontPadding="false"
+        android:text="Berühmte Personen"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tiere" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
