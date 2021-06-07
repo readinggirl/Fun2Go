@@ -9,6 +9,7 @@
     android:background="@drawable/fun2go"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
 
@@ -38,10 +39,11 @@
         android:id="@+id/settings"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="344dp"
+        android:layout_marginStart="316dp"
         android:layout_marginTop="16dp"
         android:background="@color/transparent"
         android:drawableLeft="@drawable/settings_black"
+        android:paddingLeft="7sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

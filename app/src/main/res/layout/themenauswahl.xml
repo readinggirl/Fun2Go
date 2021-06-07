@@ -8,6 +8,7 @@
     android:background="@drawable/fun2go_light"
     android:gravity="center"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.AppCompatButton
