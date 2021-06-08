@@ -17,4 +17,8 @@ public class ShowFact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_fact);
     }
+    
+    //get longitude and latitude
+    
+    
 }
