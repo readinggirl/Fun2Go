@@ -1,18 +1,18 @@
-Oesterreich: In Österreich steht auf das Führen eines Adelstitels eine Höchststrafe von 14 Cent
-Deutschland: Sommerloch, Katzenhirn und Langweiler sind Orte in Deutschland
-Frankreich: Schweine dürfen in Frankreich nicht Napoleon genannt werden
-GB: Rund 75.000 Regenschirme werden jedes Jahr in der Londoner U-Bahn liegen gelassen
-Spanien: Spanien ist das einzige europäische Land, in dem Bananen wachsen
-Russland: In Russland ist es offiziell verboten, seinen Kindern zu sagen, dass es homosexuelle Menschen gibt
-USA: Frauen müssen in Wyoming in Bars mindestens 1,50 m vom Tresen entfernt stehen
-Brasilien: Im Jahr 1947 in Rio de Janeiro gab es einen Anti-Bikini-Verein. Noch 1961 ließ Brasiliens damaliger Präsident Janio Quadros sogar den Bikini verbieten.
-Kanada: Kanada ist so groß, dass es über 6 Zeitzonen verfügt
-China: In China gibt es ein „Gesetz für die Rechte älterer Menschen“, durch das es rechtswidrig ist, die eigenen Eltern nicht regelmäßig zu besuchen, sofern sie mehr als 60 Jahre alt sind.
-Japan: Der japanische Spielekonsolen-Hersteller Nintendo existiert bereits seit 1889.
-Australien: Im Staat Victoria ist es verboten, ab Sonntag mittag in grellen pinkfarbenen Hosen herumzulaufen.
-Ägypten: Im alten Ägypten wurden Pyramidenbauer mit Bier bezahlt
-Italien: In Italien vererbte ein Mann seiner Katze sein Vermögen von circa zehn Millionen Euro
-Schweden: McDonald’s in Schweden verkauft nämlich mittlerweile Regenmäntel, Schwimmshorts oder auch Bettwäsche mit dem beliebten Big Mac Konterfrei
-Indien:  Die durchschnittliche mexikanische Tabasco-Sauce hat einen Wert von 5000 SCU. Eine Bhut Jolokia, eine Chili-Schote aus Indien, hat sage und schreibe 1.000.000 SCU und kann bei Verzehr durch eine ungeübte Person einen Ohnmachtsanfall auslösen.
-Irland: Der längste Ortsname in Irland ist Muckanaghederdauhaulia
-Griechenland: Der griechische Dichter Aeschylus soll den Überlieferungen zufolge 455 v. Chr. zu Tode gekommen sein, indem ihn eine Schildkröte, die ein Greifvogel fallen ließ, erschlug.
+at: In Österreich steht auf das Führen eines Adelstitels eine Höchststrafe von 14 Cent
+de: Sommerloch, Katzenhirn und Langweiler sind Orte in Deutschland
+fr: Schweine dürfen in Frankreich nicht Napoleon genannt werden
+gb: Rund 75.000 Regenschirme werden jedes Jahr in der Londoner U-Bahn liegen gelassen
+es: Spanien ist das einzige europäische Land, in dem Bananen wachsen
+ru: In Russland ist es offiziell verboten, seinen Kindern zu sagen, dass es homosexuelle Menschen gibt
+us: Frauen müssen in Wyoming in Bars mindestens 1,50 m vom Tresen entfernt stehen
+br: Im Jahr 1947 in Rio de Janeiro gab es einen Anti-Bikini-Verein. Noch 1961 ließ Brasiliens damaliger Präsident Janio Quadros sogar den Bikini verbieten.
+ca: Kanada ist so groß, dass es über 6 Zeitzonen verfügt
+cn: In China gibt es ein „Gesetz für die Rechte älterer Menschen“, durch das es rechtswidrig ist, die eigenen Eltern nicht regelmäßig zu besuchen, sofern sie mehr als 60 Jahre alt sind.
+jp: Der japanische Spielekonsolen-Hersteller Nintendo existiert bereits seit 1889.
+au: Im Staat Victoria ist es verboten, ab Sonntag mittag in grellen pinkfarbenen Hosen herumzulaufen.
+eg: Im alten Ägypten wurden Pyramidenbauer mit Bier bezahlt
+it: In Italien vererbte ein Mann seiner Katze sein Vermögen von circa zehn Millionen Euro
+se: McDonald’s in Schweden verkauft nämlich mittlerweile Regenmäntel, Schwimmshorts oder auch Bettwäsche mit dem beliebten Big Mac Konterfrei
+in:  Die durchschnittliche mexikanische Tabasco-Sauce hat einen Wert von 5000 SCU. Eine Bhut Jolokia, eine Chili-Schote aus Indien, hat sage und schreibe 1.000.000 SCU und kann bei Verzehr durch eine ungeübte Person einen Ohnmachtsanfall auslösen.
+ie: Der längste Ortsname in Irland ist Muckanaghederdauhaulia
+gr: Der griechische Dichter Aeschylus soll den Überlieferungen zufolge 455 v. Chr. zu Tode gekommen sein, indem ihn eine Schildkröte, die ein Greifvogel fallen ließ, erschlug.
