@@ -1,19 +1,29 @@
 package net.htlgrieskirchen.fun2go;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+
 public class ThemenAuswahl extends AppCompatActivity {
     String thema = "";
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.themenauswahl);
-
+        
         Button laender = findViewById(R.id.umgebung);
         Button allgemein = findViewById(R.id.allgemein);
         Button mensch = findViewById(R.id.mensch);
@@ -23,86 +33,51 @@ public class ThemenAuswahl extends AppCompatActivity {
         Button personen = findViewById(R.id.personen);
         Button technik = findViewById(R.id.technik);
         Button zufall = findViewById(R.id.zufall);
-
-        laender.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                thema = "laender";
-                ShowFact sf = new ShowFact(thema);
-            }
+        Context ctx = this;
+        
+        laender.setOnClickListener(v -> {
+            thema = "Laender";
+            startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", thema));
         });
-
-        allgemein.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                thema = "allgemein";
-                ShowFact sf = new ShowFact(thema);
-            }
+        
+        allgemein.setOnClickListener(v -> {
+            thema = "Allgemein";
+            startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", thema));
         });
-
-        mensch.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                thema = "mensch";
-                ShowFact sf = new ShowFact(thema);
-            }
+        
+        mensch.setOnClickListener(v -> {
+            thema = "Mensch";
+            startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", thema));
         });
-
-        essen.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                thema = "essen";
-                ShowFact sf = new ShowFact(thema);
-            }
+        
+        essen.setOnClickListener(v -> {
+            thema = "Essen";
+            startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", thema));
         });
-
-        film_serie.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                thema = "film_serie";
-                ShowFact sf = new ShowFact(thema);
-            }
+        
+        film_serie.setOnClickListener(v -> {
+            thema = "FileSerien";
+            startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", thema));
         });
-
-        tiere.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                thema = "tiere";
-                ShowFact sf = new ShowFact(thema);
-            }
+        
+        tiere.setOnClickListener(v -> {
+            thema = "Tiere";
+            startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", thema));
         });
-
-        personen.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                thema = "personen";
-                ShowFact sf = new ShowFact(thema);
-            }
+        
+        personen.setOnClickListener(v -> {
+            thema = "BeruehmtePersonen";
+            startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", thema));
         });
-
-        technik.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                thema = "technik";
-                ShowFact sf = new ShowFact(thema);
-            }
+        
+        technik.setOnClickListener(v -> {
+            thema = "Technik";
+            startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", thema));
         });
-
-        zufall.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                thema = "zufall";
-                ShowFact sf = new ShowFact(thema);
-            }
+        
+        zufall.setOnClickListener(v -> {
+            thema = "zufall";
+            startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", thema));
         });
     }
 }

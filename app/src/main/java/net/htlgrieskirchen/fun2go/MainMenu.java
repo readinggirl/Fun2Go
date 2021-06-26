@@ -12,23 +12,6 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button themen = findViewById(R.id.themen);
-        Button zufall = findViewById(R.id.zufall);
-
-        themen.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                ThemenAuswahl themenAuswahl = new ThemenAuswahl();
-            }
-        });
-
-        zufall.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                ShowFact showFact = new ShowFact("zufall");
-            }
-        });
+       
     }
 }

@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,12 +50,21 @@ public class MainActivity extends AppCompatActivity {
     double longitude;
     double latitude;
     private Location currentLocation;
-
+    Context ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    
+        Button themen = findViewById(R.id.themen);
+        Button zufall = findViewById(R.id.zufall);
+    
+        themen.setOnClickListener(v -> startActivity(new Intent(ctx, ThemenAuswahl.class)));
+    
+        zufall.setOnClickListener(v -> startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", "zufall")));
+        
+        
         readLaenderFile();
         createNotificationChannel();
         if (!isGpsAllowed) checkPermissionGPS();
@@ -91,20 +101,20 @@ public class MainActivity extends AppCompatActivity {
         InputStream in = getInputStreamForAsset(fileName);
         BufferedReader bin = new BufferedReader(new InputStreamReader(in));
         String line;
-        String toReturn = "";
+        StringBuilder toReturn = new StringBuilder();
         try {
             for (int i = 0; (line = bin.readLine()) != null; i++) {
                 /*
                 String[] lineArray =line.split(":");
                 String country_code= lineArray[0];
                 */
-                toReturn += line + (i > 0 ? "\n" : "");
+                toReturn.append(line).append(i > 0 ? "\n" : "");
             }
         } catch (IOException e) {
             Log.e(TAG, e.toString());
             e.printStackTrace();
         }
-        return toReturn;
+        return toReturn.toString();
     }
 
     private void createNotificationChannel() {
@@ -165,9 +175,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode != RQ_ACCESS_FINE_LOCATION) return;
         if (grantResults.length > 0 &&
@@ -230,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (isGpsAllowed) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
             }
         }
     }
