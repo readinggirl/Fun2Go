@@ -51,7 +51,7 @@ public class ShowFact extends AppCompatActivity {
         Intent intent = getIntent();
         thema = intent.getStringExtra("thema");
         
-     //   readFile();
+        //readFile();
         
         next = findViewById(R.id.next);
         tvThema = findViewById(R.id.thema);
@@ -67,7 +67,8 @@ public class ShowFact extends AppCompatActivity {
                 break;
             case "zufall":
                 tvThema.setText(R.string.zufall);
-
+                break;
+            default: tvThema.setText(thema);
         }
         
         //if thema = zufall -> read methode für alle files abrufen...
@@ -80,7 +81,7 @@ public class ShowFact extends AppCompatActivity {
         getRandom();
         tvFact.setText(facts.get(lastNr));
         
-        next.setOnClickListener(v -> {
+        next.setOnClickListener(v -> { //check if listlength < 1 then toast no other available
              getRandom();
             tvFact.setText(facts.get(lastNr));
         });
@@ -111,10 +112,6 @@ public class ShowFact extends AppCompatActivity {
         Collections.addAll(facts, lines);
 
         fileContent = readAsset("FilmeSerien.txt");
-        lines = fileContent.split(";");
-        Collections.addAll(facts, lines);
-
-        fileContent = readAsset("Laender.txt");
         lines = fileContent.split(";");
         Collections.addAll(facts, lines);
 
