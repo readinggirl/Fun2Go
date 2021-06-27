@@ -58,7 +58,7 @@ public class ThemenAuswahl extends AppCompatActivity {
         });
 
         film_serie.setOnClickListener(v -> {
-            thema = "FileSerien";
+            thema = "FilmeSerien";
             startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", thema));
         });
 
