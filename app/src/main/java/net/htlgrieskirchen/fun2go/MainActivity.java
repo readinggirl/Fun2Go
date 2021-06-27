@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Color;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.preference.PreferenceManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,26 +53,23 @@ public class MainActivity extends AppCompatActivity {
     double latitude;
     private Location currentLocation;
     Context ctx = this;
+    private final static int RQ_PREFERENCES = 1;
+    private SharedPreferences prefs;
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    
-        Button themen = findViewById(R.id.themen);
-        Button zufall = findViewById(R.id.zufall);
-    
-        themen.setOnClickListener(v -> startActivity(new Intent(ctx, ThemenAuswahl.class)));
-    
-        zufall.setOnClickListener(v -> startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", "zufall")));
-        
-        
-        readLaenderFile();
-        createNotificationChannel();
-        if (!isGpsAllowed) checkPermissionGPS();
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+    public static void preferenceChanged(SharedPreferences sharedPreferences, String key, View view) {
+        if (key.equals("darkmode") && view != null) {
+            if (sharedPreferences.getBoolean(key, false)) {
+                view.setBackgroundResource(R.drawable.fun2go_dark);
+            } else {
+                view.setBackgroundResource(R.drawable.fun2go_light);
+            }
 
-        startLocationService();
+        } else if (key.equals("allowNotifications")) {
+
+
+        }
+
     }
 
     private void readLaenderFile() {
@@ -175,15 +174,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode != RQ_ACCESS_FINE_LOCATION) return;
-        if (grantResults.length > 0 &&
-                grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Permission ACCESS_FINE_LOCATION denied!", Toast.LENGTH_LONG).show();
-        } else {
-            gpsGranted();
-        }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button themen = findViewById(R.id.themen);
+        Button zufall = findViewById(R.id.zufall);
+
+        themen.setOnClickListener(v -> startActivity(new Intent(ctx, ThemenAuswahl.class)));
+
+        zufall.setOnClickListener(v -> startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", "zufall")));
+
+
+        readLaenderFile();
+        createNotificationChannel();
+        if (!isGpsAllowed) checkPermissionGPS();
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        startLocationService();
+
+        View background = findViewById(R.id.layout);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        preferenceChangeListener = (sharedPrefs, key) -> preferenceChanged(sharedPrefs, key, null);
+        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
     }
 
     private void gpsGranted() {
@@ -233,12 +246,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        Log.d("MainActivity", "onResume");
-        super.onResume();
-        if (isGpsAllowed) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            }
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != RQ_ACCESS_FINE_LOCATION) return;
+        if (grantResults.length > 0 &&
+                grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permission ACCESS_FINE_LOCATION denied!", Toast.LENGTH_LONG).show();
+        } else {
+            gpsGranted();
         }
     }
 
@@ -266,6 +283,17 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d(TAG, "isLocationServiceRunning: location service is not running.");
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d("MainActivity", "onResume");
+        super.onResume();
+        if (isGpsAllowed) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+        }
     }
 
     private void sendGETRequest(Location location) {
@@ -304,5 +332,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
 
+    }
+
+    public void openSettings(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivityForResult(intent, RQ_PREFERENCES);
     }
 }
