@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.sql.StatementEvent;
+
 public class ShowFact extends AppCompatActivity {
     
     private static final String TAG = "ShowFact";
@@ -30,39 +32,83 @@ public class ShowFact extends AppCompatActivity {
     TextView tvFact;
     int lastNr = 0;
     
-    //public ShowFact(String thema) {
-    //    this.thema = thema;
-    //}
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_fact);
-    
+        
         Intent intent = getIntent();
         thema = intent.getStringExtra("thema");
         
-        readFile();
         
         next = findViewById(R.id.next);
         tvThema = findViewById(R.id.thema);
         tvFact = findViewById(R.id.funfact);
         tvFact.setMovementMethod(new ScrollingMovementMethod());
         
-        tvThema.setText(thema);
+        switch (thema) {
+            case "BeruehmtePersonen":
+                tvThema.setText(R.string.beruehmtePersonen);
+                break;
+            case "FilmeSerien":
+                tvThema.setText(R.string.filmeSerien);
+                break;
+            case "zufall":
+                tvThema.setText(R.string.zufall);
+            
+        }
         
         //if thema = zufall -> read methode für alle files abrufen...
+        if ("zufall".equals(thema)) {
+            readFileAll();
+        } else {
+            readFile(thema);
+        }
         
         tvFact.setText(facts.get(lastNr));
         
         next.setOnClickListener(v -> {
-            Toast.makeText(this, "new fact", Toast.LENGTH_SHORT).show();
             getRandom();
             tvFact.setText(facts.get(lastNr));
         });
     }
     
-    private void readFile() {
+    private void readFileAll() {
+        facts = new ArrayList<>();
+        String fileContent = readAsset("Allgemein.txt");
+        String[] lines = fileContent.split(";");
+        Collections.addAll(facts, lines);
+        
+        fileContent = readAsset("BeruehmtePersonen.txt");
+        lines = fileContent.split(";");
+        Collections.addAll(facts, lines);
+        
+        fileContent = readAsset("Essen.txt");
+        lines = fileContent.split(";");
+        Collections.addAll(facts, lines);
+        
+        fileContent = readAsset("FilmeSerien.txt");
+        lines = fileContent.split(";");
+        Collections.addAll(facts, lines);
+        
+        fileContent = readAsset("Laender.txt");
+        lines = fileContent.split(";");
+        Collections.addAll(facts, lines);
+        
+        fileContent = readAsset("Mensch.txt");
+        lines = fileContent.split(";");
+        Collections.addAll(facts, lines);
+        
+        fileContent = readAsset("Technik.txt");
+        lines = fileContent.split(";");
+        Collections.addAll(facts, lines);
+        
+        fileContent = readAsset("Tiere.txt");
+        lines = fileContent.split(";");
+        Collections.addAll(facts, lines);
+    }
+    
+    private void readFile(String thema) {
         facts = new ArrayList<>();
         String fileContent = readAsset(thema + ".txt");
         String[] lines = fileContent.split(";");
