@@ -43,6 +43,7 @@
         android:layout_marginTop="16dp"
         android:background="@color/transparent"
         android:drawableLeft="@drawable/settings_black"
+        android:onClick="openSettings"
         android:paddingLeft="7sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

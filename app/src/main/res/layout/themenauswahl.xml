@@ -9,7 +9,33 @@
     android:gravity="center"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".ThemenAuswahl">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/backToMainMenu"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/abc_vector_test"
+        android:drawableTint="@color/black"
+        android:paddingLeft="7sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/settings2"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="344dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/transparent"
+        android:drawableLeft="@drawable/settings_black"
+        android:onClick="openSettings"
+        android:paddingLeft="7sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/umgebung"
