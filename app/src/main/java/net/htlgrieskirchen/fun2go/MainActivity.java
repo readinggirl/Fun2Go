@@ -1,6 +1,7 @@
 package net.htlgrieskirchen.fun2go;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -39,7 +40,6 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-
     protected static final String CHANNEL_ID = "12345";
     protected static final int NOTIFICATION_ID_STANDARD = 1;
     String oldCountry;
@@ -56,21 +56,61 @@ public class MainActivity extends AppCompatActivity {
     private final static int RQ_PREFERENCES = 1;
     private SharedPreferences prefs;
     private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
+    public static boolean notificationAllowed = false;
 
-    public static void preferenceChanged(SharedPreferences sharedPreferences, String key, View view) {
+    public static void preferenceChanged(SharedPreferences sharedPreferences, String key, View view, Activity activity) {
         if (key.equals("darkmode") && view != null) {
             if (sharedPreferences.getBoolean(key, false)) {
                 view.setBackgroundResource(R.drawable.fun2go_dark);
+
             } else {
                 view.setBackgroundResource(R.drawable.fun2go_light);
             }
-
+            if (activity instanceof ShowFact) {
+                ShowFact showFact = (ShowFact) activity;
+                if (sharedPreferences.getBoolean(key, false)) {
+                    showFact.tvThema.setTextColor(Color.WHITE);
+                    showFact.tvFact.setTextColor(Color.WHITE);
+                } else {
+                    showFact.tvThema.setTextColor(Color.DKGRAY);
+                    showFact.tvFact.setTextColor(Color.DKGRAY);
+                }
+            }
         } else if (key.equals("allowNotifications")) {
-
-
+            notificationAllowed = sharedPreferences.getBoolean(key, false);
         }
 
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Button themen = findViewById(R.id.themen);
+        Button zufall = findViewById(R.id.zufall);
+
+        themen.setOnClickListener(v -> startActivity(new Intent(ctx, ThemenAuswahl.class)));
+
+        zufall.setOnClickListener(v -> startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", "zufall")));
+
+
+        readLaenderFile();
+        createNotificationChannel();
+        if (!isGpsAllowed) checkPermissionGPS();
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        startLocationService();
+
+        View background = findViewById(R.id.layout);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        preferenceChangeListener = (sharedPrefs, key) -> preferenceChanged(sharedPrefs, key, null, this);
+        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+        if (prefs.getBoolean("allowNotifications", false)) {
+            notificationAllowed = true;
+        }
+    }
+
 
     private void readLaenderFile() {
         laenderMap = new HashMap<>();
@@ -171,32 +211,6 @@ public class MainActivity extends AppCompatActivity {
             gpsGranted();
         }
 
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Button themen = findViewById(R.id.themen);
-        Button zufall = findViewById(R.id.zufall);
-
-        themen.setOnClickListener(v -> startActivity(new Intent(ctx, ThemenAuswahl.class)));
-
-        zufall.setOnClickListener(v -> startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", "zufall")));
-
-
-        readLaenderFile();
-        createNotificationChannel();
-        if (!isGpsAllowed) checkPermissionGPS();
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        startLocationService();
-
-        View background = findViewById(R.id.layout);
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        preferenceChangeListener = (sharedPrefs, key) -> preferenceChanged(sharedPrefs, key, null);
-        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
     }
 
     private void gpsGranted() {
@@ -322,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
                     String country = countryObject.getJSONObject("address").getString("country_code");
                     Log.d(TAG, "Country: " + country);
 
-                    if (!country.equals(oldCountry) && laenderMap.containsKey(country)) {
+                    if (!country.equals(oldCountry) && laenderMap.containsKey(country) && notificationAllowed) {
                         showNotification(null);
                     }
                     oldCountry = country;

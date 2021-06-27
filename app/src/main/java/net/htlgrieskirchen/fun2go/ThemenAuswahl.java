@@ -84,7 +84,7 @@ public class ThemenAuswahl extends AppCompatActivity {
 
         View background = findViewById(R.id.relativeLayout);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        preferenceChangeListener = (sharedPrefs, key) -> MainActivity.preferenceChanged(sharedPrefs, key, background);
+        preferenceChangeListener = (sharedPrefs, key) -> MainActivity.preferenceChanged(sharedPrefs, key, background, this);
         preferenceChangeListener.onSharedPreferenceChanged(prefs, "darkmode");
         prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
     }
