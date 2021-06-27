@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class ShowFact extends AppCompatActivity {
@@ -43,61 +44,8 @@ public class ShowFact extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.show_fact);
-    
-        Intent intent = getIntent();
-        thema = intent.getStringExtra("thema");
-        
-        //readFile();
-        
-        next = findViewById(R.id.next);
-        tvThema = findViewById(R.id.thema);
-        tvFact = findViewById(R.id.funfact);
-        tvFact.setMovementMethod(new ScrollingMovementMethod());
-        
-        switch (thema) {
-            case "BeruehmtePersonen":
-                tvThema.setText(R.string.beruehmtePersonen);
-                break;
-            case "FilmeSerien":
-                tvThema.setText(R.string.filmeSerien);
-                break;
-            case "zufall":
-                tvThema.setText(R.string.zufall);
-                break;
-            default: tvThema.setText(thema);
-            break;
-        }
-        
-        //if thema = zufall -> read methode für alle files abrufen...
-        if ("zufall".equals(thema)) {
-            readFileAll();
-        } else {
-            readFile(thema);
-        }
+    private HashMap<String, String> laenderMap;
 
-        getRandom();
-        tvFact.setText(facts.get(lastNr));
-        
-        next.setOnClickListener(v -> { //check if listlength < 1 then toast no other available
-             getRandom();
-            tvFact.setText(facts.get(lastNr));
-        });
-
-        Button backToThemenAuswahl = findViewById(R.id.backToThemenAuswahl);
-
-        backToThemenAuswahl.setOnClickListener(v -> startActivity(new Intent(ctx, ThemenAuswahl.class)));
-
-        View background = findViewById(R.id.showFactLayout);
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        preferenceChangeListener = (sharedPrefs, key) -> MainActivity.preferenceChanged(sharedPrefs, key, background, this);
-        preferenceChangeListener.onSharedPreferenceChanged(prefs, "darkmode");
-        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
-    }
-    
     private void readFileAll() {
         facts = new ArrayList<>();
         String fileContent = readAsset("Allgemein.txt");
@@ -135,9 +83,88 @@ public class ShowFact extends AppCompatActivity {
         String[] lines = fileContent.split(";");
         Collections.addAll(facts, lines);
     }
-    
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.show_fact);
+
+        Intent intent = getIntent();
+        thema = intent.getStringExtra("thema");
+
+
+        next = findViewById(R.id.next);
+        tvThema = findViewById(R.id.thema);
+        tvFact = findViewById(R.id.funfact);
+        tvFact.setMovementMethod(new ScrollingMovementMethod());
+
+        switch (thema) {
+            case "BeruehmtePersonen":
+                tvThema.setText(R.string.beruehmtePersonen);
+                break;
+            case "FilmeSerien":
+                tvThema.setText(R.string.filmeSerien);
+                break;
+            case "zufall":
+                tvThema.setText(R.string.zufall);
+                break;
+            case "Laender":
+                tvThema.setText(R.string.laender);
+                break;
+            default:
+                tvThema.setText(thema);
+                break;
+        }
+
+        //if thema = zufall -> read methode für alle files abrufen...
+        if ("zufall".equals(thema)) {
+            readFileAll();
+
+        } else if ("Laender".equals(thema)) {
+            MainActivity main = new MainActivity();
+            readLaenderFile();
+            if (laenderMap.containsKey(MainActivity.oldCountry)) {
+                tvFact.setText(laenderMap.get(MainActivity.oldCountry));
+            } else if (laenderMap.containsKey(MainActivity.country)) {
+                tvFact.setText(laenderMap.get(MainActivity.country));
+            }
+
+        } else {
+            readFile(thema);
+        }
+
+        if (!"Laender".equals(thema)) {
+            getRandom();
+            tvFact.setText(facts.get(lastNr));
+
+            next.setOnClickListener(v -> {
+                getRandom();
+                tvFact.setText(facts.get(lastNr));
+            });
+        }
+        Button backToThemenAuswahl = findViewById(R.id.backToThemenAuswahl);
+
+        backToThemenAuswahl.setOnClickListener(v -> startActivity(new Intent(ctx, ThemenAuswahl.class)));
+
+        View background = findViewById(R.id.showFactLayout);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        preferenceChangeListener = (sharedPrefs, key) -> MainActivity.preferenceChanged(sharedPrefs, key, background, this);
+        preferenceChangeListener.onSharedPreferenceChanged(prefs, "darkmode");
+        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+    }
+
+    private void readLaenderFile() {
+        laenderMap = new HashMap<>();
+        String laenderFileContent = readAsset("Laender.txt");
+        String[] laenderLines = laenderFileContent.split("\n");
+        for (String line : laenderLines) {
+            String[] splittedLine = line.split(":", 2);
+            laenderMap.put(splittedLine[0], splittedLine[1]);
+        }
+    }
+
     private InputStream getInputStreamForAsset(String filename) {
-        
+
         Log.d(TAG, "getInputStreamForAsset: " + filename);
         AssetManager assets = getAssets();
         try {

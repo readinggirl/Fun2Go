@@ -42,7 +42,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     protected static final String CHANNEL_ID = "12345";
     protected static final int NOTIFICATION_ID_STANDARD = 1;
-    String oldCountry;
+    public static String country;
     private HashMap<String, String> laenderMap;
     private static final int RQ_ACCESS_FINE_LOCATION = 123;
     private static final String TAG = "MainActivity";
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener;
     public static boolean notificationAllowed = false;
+    static String oldCountry;
+
 
     public static void preferenceChanged(SharedPreferences sharedPreferences, String key, View view, Activity activity) {
         if (key.equals("darkmode") && view != null) {
@@ -81,36 +83,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Button themen = findViewById(R.id.themen);
-        Button zufall = findViewById(R.id.zufall);
-
-        themen.setOnClickListener(v -> startActivity(new Intent(ctx, ThemenAuswahl.class)));
-
-        zufall.setOnClickListener(v -> startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", "zufall")));
-
-
-        readLaenderFile();
-        createNotificationChannel();
-        if (!isGpsAllowed) checkPermissionGPS();
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        startLocationService();
-
-        View background = findViewById(R.id.layout);
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        preferenceChangeListener = (sharedPrefs, key) -> preferenceChanged(sharedPrefs, key, null, this);
-        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
-        if (prefs.getBoolean("allowNotifications", false)) {
-            notificationAllowed = true;
-        }
-    }
-
 
     private void readLaenderFile() {
         laenderMap = new HashMap<>();
@@ -143,10 +115,6 @@ public class MainActivity extends AppCompatActivity {
         StringBuilder toReturn = new StringBuilder();
         try {
             for (int i = 0; (line = bin.readLine()) != null; i++) {
-                /*
-                String[] lineArray =line.split(":");
-                String country_code= lineArray[0];
-                */
                 toReturn.append(line).append(i > 0 ? "\n" : "");
             }
         } catch (IOException e) {
@@ -172,30 +140,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showNotification(View view) {
-        // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(this, NotificationDetails.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        // Notice that the Notification.Builder constructor requires a channel ID.
-        // This is required for compatibility with Android 8.0 (API level 26) and higher,
-        // but is ignored by older versions.
-        Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.megaphone)
-                .setColor(Color.rgb(245, 252, 255))
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText("Sie befinden sich in einem anderen Land")
-                .setStyle(new Notification.BigTextStyle()
-                        .bigText("Ein neuer FunFact zu ihrem Standort ist vergügbar!"))
-                .setWhen(System.currentTimeMillis())
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
+        Button themen = findViewById(R.id.themen);
+        Button zufall = findViewById(R.id.zufall);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(NOTIFICATION_ID_STANDARD, builder.build());
+        themen.setOnClickListener(v -> startActivity(new Intent(ctx, ThemenAuswahl.class)));
+
+        zufall.setOnClickListener(v -> startActivity(new Intent(ctx, ShowFact.class).putExtra("thema", "zufall")));
+
+
+        readLaenderFile();
+        createNotificationChannel();
+        if (!isGpsAllowed) checkPermissionGPS();
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        startLocationService();
+
+        View background = findViewById(R.id.layout);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        preferenceChangeListener = (sharedPrefs, key) -> preferenceChanged(sharedPrefs, key, null, this);
+        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
+        if (prefs.getBoolean("allowNotifications", false)) {
+            notificationAllowed = true;
+        }
     }
 
     private void checkPermissionGPS() {
@@ -299,27 +270,33 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    @Override
-    protected void onResume() {
-        Log.d("MainActivity", "onResume");
-        super.onResume();
-        if (isGpsAllowed) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-        }
+    public void showNotification(View view) {
+        // Create an explicit intent for an Activity in your app
+        Intent intent = new Intent(this, ShowFact.class).putExtra("thema", "Laender");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Notice that the Notification.Builder constructor requires a channel ID.
+        // This is required for compatibility with Android 8.0 (API level 26) and higher,
+        // but is ignored by older versions.
+        Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.megaphone)
+                .setColor(Color.rgb(245, 252, 255))
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("Sie befinden sich in einem anderen Land")
+                .setStyle(new Notification.BigTextStyle()
+                        .bigText("Ein neuer FunFact zu ihrem Standort ist vergügbar!"))
+                .setWhen(System.currentTimeMillis())
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(NOTIFICATION_ID_STANDARD, builder.build());
     }
 
     private void sendGETRequest(Location location) {
-       /* URL url = null;
-        try {
-            url = new URL("http://example.com");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
 
         double lat = location == null ? -1 : location.getLatitude();
         double lon = location == null ? -1 : location.getLongitude();
@@ -333,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
                 String line;
                 while ((line = stream.readLine()) != null) {
                     JSONObject countryObject = new JSONObject(line);
-                    String country = countryObject.getJSONObject("address").getString("country_code");
+                    country = countryObject.getJSONObject("address").getString("country_code");
                     Log.d(TAG, "Country: " + country);
 
                     if (!country.equals(oldCountry) && laenderMap.containsKey(country) && notificationAllowed) {

@@ -3,4 +3,5 @@
     <string name="beruehmtePersonen">Berühmte Personen</string>
     <string name="filmeSerien"><![CDATA[Filme & Serien]]></string>
     <string name="zufall">Zufällig</string>
+    <string name="laender">Zu meiner Umgebung</string>
 </resources>
