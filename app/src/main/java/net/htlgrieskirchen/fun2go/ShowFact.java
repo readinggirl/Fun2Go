@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -22,8 +21,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.sql.StatementEvent;
 
 public class ShowFact extends AppCompatActivity {
     
@@ -80,6 +77,7 @@ public class ShowFact extends AppCompatActivity {
             readFile(thema);
         }
 
+        getRandom();
         tvFact.setText(facts.get(lastNr));
         
         next.setOnClickListener(v -> {
@@ -93,7 +91,7 @@ public class ShowFact extends AppCompatActivity {
 
         View background = findViewById(R.id.showFactLayout);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        preferenceChangeListener = (sharedPrefs, key) -> MainActivity.preferenceChanged(sharedPrefs, key, background);
+        preferenceChangeListener = (sharedPrefs, key) -> MainActivity.preferenceChanged(sharedPrefs, key, background, this);
         preferenceChangeListener.onSharedPreferenceChanged(prefs, "darkmode");
         prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
     }
