@@ -69,6 +69,7 @@ public class ShowFact extends AppCompatActivity {
                 tvThema.setText(R.string.zufall);
                 break;
             default: tvThema.setText(thema);
+            break;
         }
         
         //if thema = zufall -> read methode für alle files abrufen...
